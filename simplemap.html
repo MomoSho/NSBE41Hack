@@ -5,8 +5,7 @@
 	
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
     <style>
       html, body, #map-canvas {
         height: 95%%;
@@ -20,9 +19,9 @@
 	  height: 5%;
 	}
     </style>
-	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+	<input type="text" id="autocomplete"> <input type="button" value="Enter" onClick="query()"/>
     	
 	<script>
 		var map;
@@ -39,7 +38,7 @@
 		function initialize() {
 		  var mapOptions = {
 			zoom: 8, //0 shows world, 19 shows streets
-			center: new google.maps.LatLng(-34.397, 150.644)
+			center: new google.maps.LatLng(37.783, -122.4039)
 		  };
 		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 		  autocomplete.bindTo('bounds',map);
@@ -50,11 +49,48 @@
 			};
 			marker = new google.maps.Marker(markerOptions);
 			marker.setMap(map);
+			
+			var m_arry = [
+				['Supreme, LA', 51.503454,-0.119562],
+				['Diamond Supply Co., LA', 51.499633,-0.124755],
+				['Pink Dolphin Clothing, LA', 51.499633,-0.124755],
+				['The Hundrerds, LA', 51.499633,-0.124755],
+				['Castles and Crooks, LA', 51.499633,-0.124755],
+				['Odd Future, LA', 51.499633,-0.124755],
+				['RVCA, LA', 51.499633,-0.124755],
+				['Mishka, LA', 51.499633,-0.124755]
+			];
+			
+			// Display multiple markers on a map
+			var infoWindow = new google.maps.InfoWindow(), mark, k;
+			
+			// Loop through our array of markers & place each one on the map  
+			for(k = 0; k < m_arry.length; k++ ) {
+				var position = new google.maps.LatLng(m_arry[k][1], m_arry[k][2]);
+				bounds.extend(position);
+				mark = new google.maps.Marker({
+					position: position,
+					map: map,
+					title: m_arry[k][0]
+				});
+				
+				// Allow each marker to have an info window    
+				//google.maps.event.addListener(mark, 'click', (function(mark, k) {
+					//return function() {
+						//infoWindow.setContent(infoWindowContent[k][0]);
+						//infoWindow.open(map, mark);
+					//}
+						//})(mark, k));
+
+						// Automatically center the map fitting all markers on the screen
+						//map.fitBounds(bounds);
+			}
+			
 		}
 
 			// Try HTML5 geolocation
 		if(navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition( function(position) {
+			navigator.geolocation.getCurrentPosition( function(position, map) {
 				var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
 				var infowindow = new google.maps.InfoWindow({
@@ -64,13 +100,16 @@
 				  });
 			  map.setCenter(pos);
 			}, function() { handleNoGeolocation(true); });
+			
+			
+			
 		  } 
 		  else {
 			// Browser doesn't support Geolocation
 			handleNoGeolocation(false);
 		  }
 			
-		google.maps.event.addDomListener(window, 'load', initialize);
+		google.maps.event.addDomListener(window, 'onload', initialize);
 		google.maps.event.addListener(autocomplete, 'place_changed', function() {
 		  infoWindow.close();
 		  var place = autocomplete.getPlace();
@@ -119,10 +158,9 @@
     </script>
   </head>
   <body>
-	<input type="text" id="autocomplete"> <input type="button" value="Enter" onClick="query()"/>
     <div id="map-canvas">
 	</div>
-	<p><a href="#one" data-role="button">Back</a></p>
+	<p><a href="main.html" data-role="button">Back</a></p>
 
   </body>
 </html>
