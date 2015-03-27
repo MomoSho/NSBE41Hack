@@ -7,110 +7,116 @@
     <meta charset="utf-8">
     <style>
       html, body, #map-canvas {
-        height: 100%;
+        height: 95%%;
         margin: 0px;
         padding: 0px
       }
 	  
 	  #autocomplete {
-	  width: 100%;
-	  height: 25px;
+	  width: 90%;
+        margin: 0px auto;
+	  height: 5%;
 	}
     </style>
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
-    <input type="text" id="autocomplete">
+    	
 	<script>
-var map;
-var acOptions = {
-	types: ['establishment']
-  };
-var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
-var marker;
-var infoWindowOptions = {
-    content: 'Moscone Is Here!'
-};
-var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+		var map;
+		var acOptions = {
+			types: ['establishment', 'food']
+		  };
+		var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
+		var marker;
+		var infoWindowOptions = {
+			content: 'Hello'
+		};
+		var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
 
-function initialize() {
-  var mapOptions = {
-    zoom: 8, //0 shows world, 19 shows streets
-    center: new google.maps.LatLng(-34.397, 150.644)
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-	    
-  
-	autocomplete.bindTo('bounds',map);
+		function initialize() {
+		  var mapOptions = {
+			zoom: 8, //0 shows world, 19 shows streets
+			center: new google.maps.LatLng(-34.397, 150.644)
+		  };
+		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		  autocomplete.bindTo('bounds',map);
 
-	// Create marker, to designate point of interest
-	var markerOptions = {
-    position: new google.maps.LatLng(37.7831, -122.4039)
-	};
-	marker = new google.maps.Marker(markerOptions);
-	marker.setMap(map);
-	}
+			// Create marker, to designate point of interest
+			var markerOptions = {
+				position: new google.maps.LatLng(37.7831, -122.4039)
+			};
+			marker = new google.maps.Marker(markerOptions);
+			marker.setMap(map);
+		}
 
-	// Try HTML5 geolocation
-  if(navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = new google.maps.LatLng(position.coords.latitude,
-                                       position.coords.longitude);
+			// Try HTML5 geolocation
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition( function(position) {
+				var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-      var infowindow = new google.maps.InfoWindow({
-        map: map,
-        position: pos,
-        content: 'Location found using HTML5.'
-      });
+				var infowindow = new google.maps.InfoWindow({
+					map: map,
+					position: pos,
+					content: 'You'
+				  });
+			  map.setCenter(pos);
+			}, function() { handleNoGeolocation(true); });
+		  } 
+		  else {
+			// Browser doesn't support Geolocation
+			handleNoGeolocation(false);
+		  }
+			
+		google.maps.event.addDomListener(window, 'load', initialize);
+		google.maps.event.addListener(autocomplete, 'place_changed', function() {
+		  infoWindow.close();
+		  var place = autocomplete.getPlace();
+		  if (place.geometry.viewport) {
+			map.fitBounds(place.geometry.viewport);
+		  } 
+		  else {
+			map.setCenter(place.geometry.location);
+			map.setZoom(17);
+		  }
+			  marker.setPosition(place.geometry.location);
+			  infoWindow.setContent('<div><strong>' + place.name + '</strong><br>');
+			  infoWindow.open(map, marker);
+			  google.maps.event.addListener(marker,'click',function(e){ infoWindow.open(map, marker); } );
+		});
 
-      map.setCenter(pos);
-    }, function() {
-      handleNoGeolocation(true);
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleNoGeolocation(false);
-  }
-	
-google.maps.event.addDomListener(window, 'load', initialize);
-google.maps.event.addListener(autocomplete, 'place_changed', function() {
-  infoWindow.close();
-  var place = autocomplete.getPlace();
-  if (place.geometry.viewport) {
-    map.fitBounds(place.geometry.viewport);
-  } else {
-    map.setCenter(place.geometry.location);
-    map.setZoom(17);
-  }
-  marker.setPosition(place.geometry.location);
-  infoWindow.setContent('<div><strong>' + place.name + '</strong><br>');
-  infoWindow.open(map, marker);
-  google.maps.event.addListener(marker,'click',function(e){
+		function handleNoGeolocation(errorFlag) {
+		  if (errorFlag) {
+			var content = 'Error: The Geolocation service failed.';
+		  } 
+		  else {
+			var content = 'Error: Your browser doesn\'t support geolocation.';
+		  }
 
-    infoWindow.open(map, marker);
+		  var options = {
+			map: map,
+			position: new google.maps.LatLng(60, 105),
+			content: content
+		  };
 
-  });
-});
-
-function handleNoGeolocation(errorFlag) {
-  if (errorFlag) {
-    var content = 'Error: The Geolocation service failed.';
-  } else {
-    var content = 'Error: Your browser doesn\'t support geolocation.';
-  }
-
-  var options = {
-    map: map,
-    position: new google.maps.LatLng(60, 105),
-    content: content
-  };
-
-  var infowindow = new google.maps.InfoWindow(options);
-  map.setCenter(options.position);
-}
+		  var infowindow = new google.maps.InfoWindow(options);
+		  map.setCenter(options.position);
+		}
+		
+		function query() {
+			var theQuery = "http://maps.google.com/?q=" + document.getElementById("autocomplete").value + "&center="+map.getCenter();
+			//var theQuery = "comgooglemaps://?q=" + document.getElementById("autocomplete").value + "&center="+infowindow.pos;
+			
+			window.open(theQuery);
+			//alert("Query Val: " + theQuery);
+		}
+		
+		//comgooglemaps://?q=Pizza&center=37.759748,-122.427135
+		//http://maps.google.com/?q=Pizza&center=37.759748,-122.427135
     </script>
   </head>
   <body>
+	<input type="text" id="autocomplete"> <input type="button" value="Enter" onClick="query()"/>
     <div id="map-canvas">
 
 	</div>
