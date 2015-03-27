@@ -5,6 +5,8 @@
 	
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
     <style>
       html, body, #map-canvas {
         height: 95%%;
@@ -108,7 +110,8 @@
 			//var theQuery = "comgooglemaps://?q=" + document.getElementById("autocomplete").value + "&center="+infowindow.pos;
 			
 			window.open(theQuery);
-			//alert("Query Val: " + theQuery);
+			//document.getElementById("map-canvas").innerHTML = '<iframe style="width:100%;height:100%;" frameborder="0" src="' + theQuery + '" />';
+			//document.getElementById("map-canvas").innerHTML = '<iframe style="width:100%;height:95%;" frameborder="0" src="' + theQuery + '" />';
 		}
 		
 		//comgooglemaps://?q=Pizza&center=37.759748,-122.427135
@@ -118,7 +121,8 @@
   <body>
 	<input type="text" id="autocomplete"> <input type="button" value="Enter" onClick="query()"/>
     <div id="map-canvas">
-
 	</div>
+	<p><a href="#one" data-role="button">Back</a></p>
+
   </body>
 </html>
