@@ -11,20 +11,29 @@
 	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 
 
-	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	
 
-</head> 	
+
+
+</head> 
+
+
 <body> 
 
-<!-- Start of first page: #one -->
-<div data-role="page" id="one">
+	<!-- Start of first page: #one -->
+	<div data-role="page" id="one">
 
-	<div data-role="header">
-		<h1>Follow The Hype</h1>
-	</div><!-- /header -->
+		<div data-role="header">
+			<h1>NSBE HACKATHON</h1>
+		</div><!-- /header -->
 
-	<div data-role="content" >	
+		<div data-role="content" >	
+			
+			<p><a href="#blog" data-role="button">Follow The Hype</a></p>	
+			<p><a href="#map" data-role="button" >Find Hype</a></p>
+		</div><!-- /content -->
 		
+<<<<<<< HEAD
 		<p><a href="#blog" data-role="button">Blog</a></p>	
 <!-- http://localhost:8000		<p><a href="https://github.com/MomoSho/NSBE41Hack/blob/master/simplemap.html" data-role="button" data-rel="dialog" data-transition="pop">Find Hype</a></p> -->	
 		<p><a href="" data-role="button" data-rel="dialog" data-transition="pop">Find Hype</a></p>
@@ -33,41 +42,44 @@
 </div>
 <!-- /content -->
 	
+=======
+>>>>>>> origin/master
 
-</div><!-- /page one -->
-
-
-<!-- Start of second page: #two -->
-<div data-role="page" id="blog" data-theme="a">
-
-	<div data-role="header">
-		<h1>Two</h1>
-	</div><!-- /header -->
-
-	<div data-role="content" data-theme="a">	
-		<h1>Stay Hip</h1>
-
-		<div data-role="content" id="twitter-feed"></div>
-	</div><!-- /content -->
-	<p><a href="#one" data-role="button">Back</a></p>	
-	
-</div><!-- /page two -->
+	</div><!-- /page one -->
 
 
-<!-- Start of third page: #popup -->
-<div data-role="page" id="map">
+	<!-- Start of second page: #two -->
+	<div data-role="page" align="middle"  id="blog" data-theme="a">
 
-	<div data-role="header" data-theme="e">
-		<h1>Dialog</h1>
-	</div><!-- /header -->
+		<div data-role="header">
+			<h1></h1>
+		</div><!-- /header -->
 
-	<div data-role="content" data-theme="d">	
-		<h2>Popup</h2>
-		<p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>		
-		<p><a href="#one" data-rel="back" data-role="button" data-inline="true" data-icon="back">Back to page "one"</a></p>	
-	</div><!-- /content -->
+		<div data-role="content" data-theme="a">	
 
-</div><!-- /page popup -->
+			<!--Embedded Twitter Stuff-->
+			<a class="twitter-timeline" href="https://twitter.com/Luseniik/lists/hype" data-chrome="nofooter transparent noheader noscrollbar" data-widget-id="581361810139262976">Tweets from https://twitter.com/Luseniik/lists/hype</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			<!--End-->
+		</div><!-- /content -->
+		<p><a href="#one" data-role="button">Back</a></p>	
+		
+	</div><!-- /page two -->
+
+	<!-- Start of second page: #map -->
+	<div data-role="page" align="middle"  id="map" data-theme="a">
+
+		<div data-role="header">
+			<h1></h1>
+		</div><!-- /header -->
+
+		<div data-role="content" data-theme="a">	
+
+		
+		</div><!-- /content -->
+		<p><a href="#one" data-role="button">Back</a></p>	
+		
+	</div><!-- /page two -->
 
 </body>
 </html>
